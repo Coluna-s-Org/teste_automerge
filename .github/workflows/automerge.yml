@@ -20,6 +20,7 @@ jobs:
     outputs:
       apps: ${{ steps.filter.outputs.apps }}
       scripts: ${{ steps.filter.outputs.scripts }}
+      github: ${{ steps.filter.outputs.github }}
     steps:
     # For pull requests it's not necessary to checkout the code
     - uses: dorny/paths-filter@v2
@@ -30,11 +31,12 @@ jobs:
             - 'apps/**'
           scripts:
             - 'scripts/**'
+          github:
+            - '.github/**'
             
   autoapprove:
-    name: AutoApproval only in Queries folder
     needs: changes
-    if: ${{ needs.changes.outputs.apps == 'false' && needs.changes.outputs.scripts == 'false'}}
+    if: ${{ needs.changes.outputs.apps == 'false' && needs.changes.outputs.scripts == 'false' && needs.changes.outputs.github == 'false'}}
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -52,6 +54,8 @@ jobs:
 #         with:
 #           labels: |
 #             automerge
+#           repo-token: ${{ secrets.GITHUB_TOKEN }}
+
                 
           
 #   automerge:
