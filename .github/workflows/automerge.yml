@@ -35,7 +35,6 @@ jobs:
             - '.github/**'
             
   autoapprove:
-    name: AutoApproval only in Queries folder
     needs: changes
     if: ${{ needs.changes.outputs.apps == 'false' && needs.changes.outputs.scripts == 'false' && needs.changes.outputs.github == 'false'}}
     runs-on: ubuntu-latest
